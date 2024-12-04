@@ -1,0 +1,28 @@
+FROM python:3.9-slim AS builder
+
+RUN python -m venv /app/venv
+ENV PATH="/app/venv/bin:$PATH"
+
+RUN pip install --upgrade pip
+COPY requirements.txt ./
+# Монтирование кеша pip с docker host
+RUN --mount=type=cache,target=~/.cache/pip pip install -r requirements.txt
+
+FROM python:3.9-slim AS worker
+COPY --from=builder /opt/venv /opt/venv
+
+WORKDIR /app
+RUN addgroup --system python && \
+    adduser --system --disabled-password  --ingroup python python && chown python:python /app
+USER python
+
+COPY --chown=python:python --from=builder /app/venv ./venv
+COPY --chown=python:python . .
+ENV PATH="/app/venv/bin:$PATH"
+ENV DB_HOST=172.20.0.5
+ENV DB_USER="app"
+ENV DB_PASSWORD="QwErTy1234"
+ENV DB_NAME="virtd"
+#ENV DB_TABLE=requests
+
+CMD ["python", "main.py"]
