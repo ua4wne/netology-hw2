@@ -3,28 +3,41 @@ x-env_file: &env_file
     - .env
 x-restart: &restart
   restart: always #no, on-failure , always(default), unless-stopped
+x-failure: &failure
+  restart: on-failure
+include:
+  - proxy.yaml
 services:
-  db:
-    image: mariadb:10.6.4-focal
-    container_name: db
+  web:
+    image: my-app:latest
+    container_name: app
+    <<: [*env_file, *failure]
+    environment:
+      - DB_HOST=172.20.0.10
+      - DB_USER=${MYSQL_USER}
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
     networks:
-      netapp:
-        ipv4_address: 172.20.0.10
-    <<: [*env_file, *restart]
+      backend:
+        ipv4_address: 172.20.0.5
+  db:
+    image: mysql:8
+    container_name: db
+    <<: [*env_file, *failure]
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_HOST="%"
+    # volumes:
+    #   - ./db/data:/var/lib/mysql
     ports:
       - "3306:3306"
-
-volumes:
-  db_data: {}
-networks:
-  netapp:
-    driver: bridge
-    ipam:
-      config:
-      - subnet: 172.20.0.0/24
+    networks:
+      backend:
+        ipv4_address: 172.20.0.10
