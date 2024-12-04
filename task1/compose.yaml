@@ -1,0 +1,30 @@
+x-env_file: &env_file
+  env_file:
+    - .env
+x-restart: &restart
+  restart: always #no, on-failure , always(default), unless-stopped
+services:
+  db:
+    image: mariadb:10.6.4-focal
+    container_name: db
+    networks:
+      netapp:
+        ipv4_address: 172.20.0.10
+    <<: [*env_file, *restart]
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_HOST="%"
+    ports:
+      - "3306:3306"
+
+volumes:
+  db_data: {}
+networks:
+  netapp:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.20.0.0/24
