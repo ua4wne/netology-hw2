@@ -80,6 +80,9 @@ export DB_NAME=virtd`
 Скачайте docker образ hashicorp/terraform:latest и скопируйте бинарный файл /bin/terraform на свою локальную машину, используя dive и docker save. Предоставьте скриншоты действий .
 
 ![pull](task6/pull.png)
+
+`docker run -ti --rm  -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive hashicorp/terraform`
+
 ![dive](task6/dive.png)
 ![copy](task6/6-0.png)
 ![terraform](task6/6_1.png)
