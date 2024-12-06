@@ -68,5 +68,12 @@ export DB_NAME=virtd`
 
 Результат работы задания по архивации
 ![show](task5/folder.png)
+но все файлы нулевого размера, что-то не то!
+Попробовал делать архивацию вот так
+`/usr/bin/docker exec db /usr/bin/mysqldump -u$DB_USER --password=$DB_PASSWORD $DB_NAME > /opt/backup/$(date +%F--%H-%M-%S)-virtd.sql`
+так работает!
+![show](task5/alternate.png)
+
+
 
 
