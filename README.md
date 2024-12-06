@@ -34,6 +34,37 @@
 
 ## Задача 3
 
-Создаем файл для запуска нескольких контейнеров для работы приложения
+Создаем файл для запуска нескольких контейнеров для работы приложения и запускаем  его в работу при помощи команды docker compose up -d
 ![curl](task3/curl.png)
+Теперь подключимся к БД и посмотрим, что там есть
 ![show](task3/mysql.png)
+
+## Задача 4
+
+Создаем ВМ в Yandex Cloud и устанавливаем необходимое ПО, далее при помощи скрипта deploy.sh запускаем проект на этой ВМ и проверяем работу приложения
+![check](task4/check.png)
+
+Настраиваем remote ssh context к нашему серверу
+![check](task4/context.png)
+
+Теперь подключимся к БД и посмотрим, что там есть
+![show](task4/mysql.png)
+
+## Задача 5
+
+Настроим резервное копирование при помощи образа schnitzler/mysqldump. Чтобы не светить секреты в репозиторий, предварительно на хосте создадим необходимые переменные окружения
+export DB_HOST=172.20.0.10 
+export DB_USER=app 
+export DB_PASSWORD=pass
+export DB_NAME=virtd
+
+Далее напишем скрипт для кронтаба db_backup.sh, в который поместим следующую команду
+`/usr/bin/docker run --rm --entrypoint "" -v /opt/backup:/backup --network="shvirtd-example-python_backend" --link="db:db" schnitzler/mysqldump mysqldump --opt -h db -u$DB_USER -p$DB_PASSWORD "--result-file=/backup/$(date +%F--%H-%M-%S)-dumps.sql" $DB_NAME`
+
+Сам кронтаб
+![show](task5/cron.png)
+
+Результат работы задания по архивации
+![show](task5/folder.png)
+
+
