@@ -6,7 +6,7 @@
 
 ## Задача 1
 
-[Создаем fork репозитория](https://github.com/ua4wne/shvirtd-example-python.git)
+Создаем [fork репозитория](https://github.com/ua4wne/shvirtd-example-python.git)
 
 Создали файл с именем Dockerfile.python для сборки данного проекта и проверяем корректность сборки.
 ![Сборка контейнера](task1/build.png)
@@ -18,6 +18,22 @@
 ![venv](task1/venv.png)
 ![site](task1/venv_result.png)
 
+Исправление для управления названием используемой таблицы через ENV переменную, которую добавляем в Dockerfile.python (ENV DB_TABLE="requests")
+![edit_env](task1/db_table.png)
+
+## Задача 2
+
+Создали в yandex cloud container registry с именем "test" с помощью "yc tool" (при выполнении команды не поправил имя на test, изменил его потом через веб-интерфейс)
+![yc](task2/yc_registry.png)
+
+после загрузки образа выполняем его сканирование
+![scan](task2/yc_scan.png)
+![result1](task2/result1.png)
+![result2](task2/result2.png)
+видно, что образ содержит одну критическую уязвимость и несколько уязвимостей уровня HIGH и MEDIUM
+
 ## Задача 3
-![Запуск контейнера](task3/1.png)
-![Стоп контейнер](task3/2.png)
+
+Создаем файл для запуска нескольких контейнеров для работы приложения
+![curl](task3/curl.png)
+![show](task3/mysql.png)
