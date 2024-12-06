@@ -68,12 +68,25 @@ export DB_NAME=virtd`
 
 Результат работы задания по архивации
 ![show](task5/folder.png)
+
 но все файлы нулевого размера, что-то не то!
 Попробовал делать архивацию вот так
 `/usr/bin/docker exec db /usr/bin/mysqldump -u$DB_USER --password=$DB_PASSWORD $DB_NAME > /opt/backup/$(date +%F--%H-%M-%S)-virtd.sql`
 так работает!
 ![show](task5/alternate.png)
 
+## Задача 6
+
+Скачайте docker образ hashicorp/terraform:latest и скопируйте бинарный файл /bin/terraform на свою локальную машину, используя dive и docker save. Предоставьте скриншоты действий .
+
+![copy](task6/6-0.png)
+![terraform](task6/6_1.png)
+
+## Задача 6.1
+
+Добейтесь аналогичного результата, используя docker cp.
+
+![terraform](task6_1/6-1.png)
 
 
 
