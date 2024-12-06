@@ -85,13 +85,10 @@ export DB_NAME=virtd`
 
 ![dive](task6/dive.png)
 ![copy](task6/6-0.png)
-![terraform](task6/6_1.png)
+![terraform](task6/6-1.png)
 
 ## Задача 6.1
 
 Добейтесь аналогичного результата, используя docker cp.
 
-![terraform](task6_1/6-1.png)
-
-
-
+![terraform](task6_1/1.png)
