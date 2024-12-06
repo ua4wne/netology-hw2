@@ -1,0 +1,1 @@
+/usr/bin/docker run --rm --entrypoint "" -v /opt/backup:/backup --link="db:db" schnitzler/mysqldump mysqldump --opt -h db -u$DB_USER -p$DB_PASSWORD "--result-file=/backup/$(date +%F--%H-%M-%S)-dumps.sql" $DB_NAME
